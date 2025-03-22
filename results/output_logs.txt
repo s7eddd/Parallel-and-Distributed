@@ -1,0 +1,15 @@
+
+[INFO] Starting Genetic Algorithm (Sequential Version)
+[INFO] Initial Population Generated: 100 individuals
+[INFO] Generation 1 - Best Distance: 456.78
+[INFO] Generation 50 - Best Distance: 345.21
+[INFO] Final Best Route Distance: 310.56
+[INFO] Execution Time: 24.85 seconds
+
+[INFO] Starting Genetic Algorithm (Parallel Version)
+[INFO] Processes Used: 4
+[INFO] Initial Population Generated: 100 individuals
+[INFO] Generation 1 - Best Distance: 458.34
+[INFO] Generation 50 - Best Distance: 340.45
+[INFO] Final Best Route Distance: 305.12
+[INFO] Execution Time: 13.42 seconds
