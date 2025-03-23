@@ -1,7 +1,7 @@
 # 🚚 Assignment 1 – Part 2: Route Optimization Using Genetic Algorithm
 **Course:** DSAI 3202 – Parallel and Distributed Computing  
-**Student Name:** [YOUR NAME]  
-**Semester:** Spring 2025  
+**Student Name:** [Syed Abdullah]  
+**Semester:** Winter 2025  
 
 ---
 
@@ -57,19 +57,6 @@ The problem simulates a city with multiple delivery points (nodes) and aims to m
 | `parallel_version/parallel_ga.py` | Parallel implementation using MPI4PY |
 | `data/city_distances.csv` | Distance matrix for the city (20 nodes) |
 | `data/city_distances_extended.csv` | Extended version with 100 nodes |
-
----
-
-## 📊 Results
-
-### ✅ Sequential Execution:
-- Best Route Distance: `310.56`
-- Time Taken: `24.85 seconds`
-
-### ✅ Parallel Execution:
-- Number of Processes: 4
-- Time Taken: `13.42 seconds`
-- Speedup: `1.85x`
 
 ---
 
