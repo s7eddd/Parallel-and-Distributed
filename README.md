@@ -1,3 +1,116 @@
+# Maze Explorer Game
+
+Maze Explorer Game is a Pygame-based application that lets you navigate through a maze either manually or by watching an automated solver find its way to the exit. The project is set up to allow both interactive play and advanced experimentation with various maze-solving algorithms.
+
+## Project Setup
+
+First, create and activate a Conda environment with Python 3.12:
+
+```bash
+# Create a new conda environment with Python 3.12
+conda create -n maze-runner python=3.12
+
+# Activate the conda environment
+conda activate maze-runner
+```
+
+Next, install Jupyter and the required project dependencies:
+
+```bash
+# Install Jupyter
+pip install jupyter
+
+# Install project dependencies
+pip install -r requirements.txt
+```
+
+## Running the Maze Runner Game
+
+You can start the game in several ways. For a basic experience with a randomly generated maze, run:
+
+```bash
+python main.py
+```
+
+If you prefer to control the maze yourself, use Manual Mode. Here, the arrow keys move the blue circle (your player) from the green starting square toward the red goal while avoiding the black walls. Manual Mode supports different configurations:
+
+- To run a random maze: `python main.py`
+- To run a static maze: `python main.py --type static`
+- To run a custom maze size: `python main.py --type random --width 40 --height 40`
+
+Alternatively, if you’d like to see the maze solved automatically, use Auto Mode. In this mode, the explorer uses the right-hand rule algorithm to navigate the maze and then prints performance statistics. Commands include:
+
+- Auto exploration (random maze): `python main.py --auto`
+- Auto exploration (static maze): `python main.py --type static --auto`
+- Auto exploration with visualization: `python main.py --auto --visualize`
+- Enhanced algorithm with diagonal movement: `python main.py --auto --enhanced diagonal`
+- Enhanced with visualization on a larger maze: `python main.py --auto --visualize --enhanced enhanced --width 40 --height 40`
+
+For parallel execution, use the distributed mode via `parallel_main.py`:
+
+Multiprocessing mode (4 explorers):
+
+```bash
+python parallel_main.py --auto --num_explorers 4
+```
+
+Distributed mode (using Celery + RabbitMQ):
+
+```bash
+python parallel_main.py --auto --distributed --num_explorers 4
+```
+
+## Additional Command-Line Arguments
+
+- `--type`: Choose between "random" (default) or "static" maze generation.
+- `--width` and `--height`: Set the maze dimensions (applies only to random mazes).
+- `--auto`: Enable automated maze solving.
+- `--visualize`: Enable real-time visualization (only in single-explorer mode).
+- `--enhanced`: Select the exploration algorithm mode:
+  - "normal" for the basic algorithm,
+  - "enhanced" for an A* algorithm with improved backtracking,
+  - "diagonal" for an enhanced A* algorithm with diagonal movement.
+- `--num_explorers`: Set the number of parallel explorer instances (used with parallel_main.py).
+- `--distributed`: Use Celery and RabbitMQ for distributed execution (used with parallel_main.py).
+
+## Maze Types
+
+The project supports two types of mazes:
+
+### Random Maze (Default)
+- Generated using a depth-first search algorithm.
+- Produces a different layout on each run.
+- Customizable dimensions.
+
+### Static Maze
+- Uses a fixed maze pattern with dimensions of 50x50.
+- The layout remains the same every time (width and height settings are ignored).
+
+## How to Play
+
+### Manual Mode
+Control the player using the arrow keys. The blue circle represents you, starting at the green square with the red square as your goal while avoiding the black walls.
+
+### Automated Mode
+In automated mode, the explorer employs the right-hand rule algorithm to solve the maze. Upon completion, it displays detailed statistics including:
+- Total time taken,
+- Total moves made,
+- Number of backtracking operations,
+- Average moves per second.
+
+Real-time visualization (if enabled) shows the explorer’s progress in blue, updating at 30 frames per second and pausing briefly at the end to display the final state.
+
+## Additional Project Information
+
+Key files included in the project:
+- `explorer.py`: Contains the original right-hand rule algorithm.
+- `explorer_improved.py`: Implements an enhanced A* algorithm with improved backtracking.
+- `multi_runner.py`: Handles parallel execution using multiprocessing.
+- `mpi_runner.py`: Implements parallel execution using MPI.
+- `maze_explorer_comparison.ipynb`: A notebook that presents bar charts comparing performance metrics.
+- `parallel_main.py`: Supports both parallel and distributed execution (using Celery and RabbitMQ).
+
+Overall, Maze Explorer Game offers a rich platform to explore maze-solving strategies, combining interactive play with advanced algorithmic analysis for both casual users and those interested in performance optimization.
 ## Running Instructions
 
 - Single Explorer (Original):
