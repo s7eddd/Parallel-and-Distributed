@@ -1,55 +1,31 @@
-"""
-Main entry point for the maze runner game.
-"""
+import threading
+import time
+from src.sensor_simulation import *
+from src.data_processing import *
+from src.display_logic import *
 
-import argparse
-from src.game import run_game
-from src.explorer import Explorer
+# Initialize display
+initialize_display()
 
-from src.multi_runner import run_multiple_explorers
+# Create sensor threads
+sensor_threads = [threading.Thread(target=simulate_sensor, args=(i,), daemon=True) for i in range(3)]
 
+# Create data processing thread
+processing_thread = threading.Thread(target=process_temperatures, daemon=True)
 
+# Create display update thread (refresh every 5s)
+display_thread = threading.Thread(target=update_display, daemon=True)
 
-def main():
-    parser = argparse.ArgumentParser(description="Maze Runner Game")
-    parser.add_argument("--type", choices=["random", "static"], default="random",
-                        help="Type of maze to generate (random or static)")
-    parser.add_argument("--width", type=int, default=30,
-                        help="Width of the maze (default: 30, ignored for static mazes)")
-    parser.add_argument("--height", type=int, default=30,
-                        help="Height of the maze (default: 30, ignored for static mazes)")
-    parser.add_argument("--auto", action="store_true",
-                        help="Run automated maze exploration")
-    parser.add_argument("--visualize", action="store_true",
-                        help="Visualize the automated exploration in real-time")
-    
-    parser.add_argument("--multi", type=int, default=0,
-                    help="Run multiple explorers in parallel (enter number of explorers)")
+# Start all threads
+for thread in sensor_threads:
+    thread.start()
 
-    
-    args = parser.parse_args()
-    
-    # If --multi is used, run multiple explorers in parallel
-    if args.multi > 0:
-        run_multiple_explorers(args.multi, args.width, args.height, args.type)
-        return
+processing_thread.start()
+display_thread.start()
 
-    
-    if args.auto:
-        # Create maze and run automated exploration
-        from src.maze import create_maze
-        maze = create_maze(args.width, args.height, args.type)
-        explorer = Explorer(maze, visualize=args.visualize)
-        time_taken, moves = explorer.solve()
-        print(f"Maze solved in {time_taken:.2f} seconds")
-        print(f"Number of moves: {len(moves)}")
-        if args.type == "static":
-            print("Note: Width and height arguments were ignored for the static maze")
-    else:
-        # Run the interactive game
-        run_game(maze_type=args.type, width=args.width, height=args.height)
-        
-
-
-if __name__ == "__main__":
-    main()
+# Keep the main thread running
+try:
+    while True:
+        time.sleep(1)
+except KeyboardInterrupt:
+    print("\nStopping simulation.")
